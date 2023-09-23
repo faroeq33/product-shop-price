@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -13,11 +14,6 @@ class ProductSeeder extends Seeder {
      * Run the database seeds.
      */
     public function run(): void {
-        DB::table('products')->insert([
-            'name' => Str::random(10),
-            'description' => Str::random(10),
-            'price' => 10.15,
-            'created_at' => Carbon::now()
-        ]);
+        Product::factory()->count(50)->create();
     }
 }
