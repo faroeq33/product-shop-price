@@ -8,9 +8,7 @@
 </head>
 
 <body>
-    <h1 class="text-3xl font-bold underline">
-        @yield('content')
-    </h1>
+    @yield('content')
 </body>
 
 </html>

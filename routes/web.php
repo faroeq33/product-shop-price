@@ -14,8 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/product', [ProductController::class, 'show']);
+Route::resource('products', ProductController::class);
 
-Route::get('/', function () {
-    return view('app');
-});
+Route::get('/', [ProductController::class, 'index']);

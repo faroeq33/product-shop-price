@@ -11,7 +11,9 @@ class ProductController extends Controller {
      * Display a listing of the resource.
      */
     public function index() {
-        //
+        $data = DB::table('products')->select('name', 'price')->get();
+
+        return view('products.index', ['data' => $data]);  //
     }
 
     /**
@@ -32,9 +34,6 @@ class ProductController extends Controller {
      * Display the specified resource.
      */
     public function show(Product $product) {
-        $data = DB::table('products')->select('name', 'price')->get();
-
-        return view('products.show', ['data' => $data]);
     }
 
     /**
