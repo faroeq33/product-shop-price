@@ -74,7 +74,7 @@
                     <tbody class="text-sm font-light text-gray-600">
 
                         @foreach ($data as $item)
-                        <tr class="border-b border-gray-200 bg-gray-50 hover:bg-gray-100 product__model">
+                        <tr class="border-b border-gray-200 bg-gray-50 hover:bg-gray-100">
                             {{-- productname --}}
                             <td class="px-6 py-3 text-center">
                                 <div class="flex items-center">
@@ -137,43 +137,4 @@
 </div>
 
 {{-- code om clientside de producten te filteren --}}
-<script>
-    "use-strict"
-
-function myFunction() {
-  const rawProducts = document.querySelectorAll(".product__model")
-
-  const input = document
-    .getElementById("myInput")
-    .value
-    .toUpperCase();
-
-  const isMatch = (element) => {
-    return element
-      .innerText
-      .toUpperCase()
-      .indexOf(input) > -1;
-  }
-
-  // following lines show matched inputs of products
-  const showMatchedProducts = R.pipe(
-    R.filter(isMatch),
-    R.forEach(
-      x => x.parentElement.style.display = ""
-    )
-  )
-
-  // following lines hide mismatched inputs of products
-  const hideMisMatchedProducts = R.pipe(
-    R.reject(isMatch),
-    R.forEach(
-      x => x.parentElement.style.display = "none"
-    )
-  )
-
-  // Side Effects below...
-  showMatchedProducts(rawProducts)
-  hideMisMatchedProducts(rawProducts)
-};
-</script>
 @endsection
