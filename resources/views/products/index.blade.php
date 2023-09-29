@@ -2,7 +2,6 @@
 @section('content')
 
 <!-- component -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/ramda/0.25.0/ramda.min.js"></script>
 
 <div class="grid gap-4 overflow-x-auto">
     <div class="flex items-center justify-center flex-1 px-2 lg:ml-6">
