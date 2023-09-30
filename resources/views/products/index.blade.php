@@ -4,11 +4,11 @@
 <!-- component -->
 
 <div class="grid gap-4 overflow-x-auto">
-    <div class="flex items-center justify-center flex-1 px-2 lg:ml-6">
-        <form method="POST" action="/products/">
+    <div class="flex justify-center flex-1 px-2 lg:ml-6">
+        <form method="get" action="/search" class="">
             @csrf
             <!---->
-            <div class="w-full max-w-lg mt-4 lg:max-w-xs">
+            <div class="flex w-full max-w-lg mt-4 lg:max-w-xs">
                 <label for="search" class="sr-only">Search</label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -20,11 +20,11 @@
                     </div>
                     <input id="myInput" name="search"
                         class="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        type="search" onkeyup="myFunction()" placeholder=" Filter product...">
+                        type="search" placeholder=" Filter product...">
                 </div>
 
                 <button type="submit"
-                    class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Search</button>
+                    class="ml-4 rounded-md bg-indigo-600 px-3.5  text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Search</button>
 
 
 
@@ -58,7 +58,7 @@
             </svg>
         </button>
     </div>
-    <div class="flex items-center justify-center min-h-screen overflow-hidden font-sans bg-gray-100 min-w-screen">
+    <div class="flex justify-center min-h-screen overflow-hidden font-sans bg-gray-100 min-w-screen">
         <div class="w-full lg:w-5/6">
             <div class="my-6 bg-white rounded shadow-md">
                 <table class="w-full table-auto min-w-max">
@@ -71,8 +71,7 @@
                         </tr>
                     </thead>
                     <tbody class="text-sm font-light text-gray-600">
-
-                        @foreach ($data as $item)
+                        @forelse ($data as $item)
                         <tr class="border-b border-gray-200 bg-gray-50 hover:bg-gray-100">
                             {{-- productname --}}
                             <td class="px-6 py-3 text-center">
@@ -127,7 +126,11 @@
                             </td>
                             {{-- product actions --}}
                         </tr>
-                        @endforeach
+                        @empty
+                        <tr class="m-4 text-center border-b border-gray-200 bg-gray-50 hover:bg-gray-100">
+                            <td colspan="4">No items found... </td>
+                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>

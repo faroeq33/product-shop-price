@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,3 +18,4 @@ use Illuminate\Support\Facades\Route;
 Route::resource('products', ProductController::class);
 
 Route::get('/', [ProductController::class, 'index']);
+Route::get('/search', [ProductController::class, 'show']);

@@ -23,6 +23,8 @@ class ProductController extends Controller {
         //
     }
 
+
+
     /**
      * Store a newly created resource in storage.
      */
@@ -33,7 +35,12 @@ class ProductController extends Controller {
     /**
      * Display the specified resource.
      */
-    public function show(Product $product) {
+
+    public function show(Request $request) {
+        $sanitisedSearchQuery = $request->query()['search']; // Add security for sanitising
+
+        $data = Product::search($sanitisedSearchQuery, ['name', 'price'])->get();
+        return view('products.index', ['data' => $data]);  //
     }
 
     /**
