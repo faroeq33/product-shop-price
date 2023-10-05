@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -39,7 +40,17 @@ class ProductController extends Controller {
     public function show(Request $request) {
         $sanitisedSearchQuery = $request->query()['search']; // Add security for sanitising
 
-        $data = Product::search($sanitisedSearchQuery, ['name', 'price'])->get();
+        $data = Product::search($sanitisedSearchQuery, ['name', 'price', 'categories.name'])->get();
+        $categories = Category::find([2, 3]);
+
+        $product = Product::create([
+            'name'  =>  'Home Brixton Faux Leather Armchair',
+            'price' =>  199.99,
+        ]);
+
+        $product->categories()->attach($categories);
+
+
         return view('products.index', ['data' => $data]);  //
     }
 
