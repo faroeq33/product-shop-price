@@ -7,14 +7,20 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+
 class ProductController extends Controller {
     /**
      * Display a listing of the resource.
      */
     public function index() {
-        $data = DB::table('products')->select('name', 'price')->get();
+        $products = Product::with('categories')->get();
 
-        return view('products.index', ['data' => $data]);  //
+        $categories = Category::with('products')->get();
+
+        return view('products.index', [
+            'data' => $products,
+            'categories' => $categories
+        ]);
     }
 
     /**
@@ -38,20 +44,27 @@ class ProductController extends Controller {
      */
 
     public function show(Request $request) {
-        $sanitisedSearchQuery = $request->query()['search']; // Add security for sanitising
+        $searchQueryString = $request->query()['search'] ?? ''; // Nog beveiliging toevoegen
 
-        $data = Product::search($sanitisedSearchQuery, ['name', 'price', 'categories.name'])->get();
-        $categories = Category::find([2, 3]);
+        // Haalt de tags eruit en als het leeg is een array
+        $tags = $request->query()['tags'] ?? [];
 
-        $product = Product::create([
-            'name'  =>  'Home Brixton Faux Leather Armchair',
-            'price' =>  199.99,
+        // Zet array om in een lange string om zodadelijk voor het zoeken te gebruiken
+        $stringifiedTags = implode(" ", $tags) ?? '';
+
+        // Voegt categorieen van de checkboxes als string aan de zoekveldstring
+        $totalSearchquery = $searchQueryString . $stringifiedTags;
+
+        // Zoek dmv een string de product model in de mogelijke kolommen
+        $products = Product::search($totalSearchquery, ['name', 'price', 'categories.name'])->get();
+
+        // Om categorien in filtermenu te selecteren
+        $categories = Category::with('products')->get();
+
+        return view('products.index', [
+            'data' => $products,
+            'categories' => $categories
         ]);
-
-        $product->categories()->attach($categories);
-
-
-        return view('products.index', ['data' => $data]);  //
     }
 
     /**

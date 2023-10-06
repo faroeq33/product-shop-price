@@ -2,27 +2,79 @@
 @section('content')
 
 <!-- component -->
-
 <div class="grid gap-4 overflow-x-auto">
     <div class="flex justify-center flex-1 px-2 lg:ml-6">
         <form method="get" action="/search" class="">
             @csrf
             <!---->
-            <div class="flex w-full max-w-lg mt-4 lg:max-w-xs">
+            <div class="flex w-full max-w-lg mt-4 lg:max-w-md">
                 <label for="search" class="sr-only">Search</label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                        <svg class="w-5 h-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <input id="myInput" name="search"
+                    class="block w-full rounded-md border-0 bg-white py-1.5 px-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    type="search" placeholder="Zoek producten">
+
+                {{-- the dropdown menu --}}
+                <div class="relative inline-block text-left">
+                    <div id="dropdown-button"
+                        class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500">
+                        Select Item
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20"
+                            fill="currentColor" aria-hidden="true">
                             <path fill-rule="evenodd"
-                                d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
+                                d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
                                 clip-rule="evenodd" />
                         </svg>
                     </div>
-                    <input id="myInput" name="search"
-                        class="block w-full rounded-md border-0 bg-white py-1.5 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        type="search" placeholder=" Filter product...">
+
+                    <div id="dropdown-menu"
+                        class="absolute right-0 hidden w-56 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5">
+                        <div class="p-2 py-2" role="menu" aria-orientation="vertical" aria-labelledby="dropdown-button">
+                            {{-- haal mogelijke categorien op --}}
+                            @foreach ($categories as $category)
+                            <ul>
+                                <li> <input type="checkbox" name="tags[]"
+                                        class="px-4 py-2 mb-1 text-sm text-gray-700 bg-white rounded-md hover:bg-gray-100"
+                                        role="menuitem" value="{{ $category->name }}" id="tag-{{ $category->id}}">
+                                    Category:
+                                    {{
+                                    $category->name }}</input>
+
+                                <li>
+                            </ul>
+                            @endforeach
+
+                        </div>
+                    </div>
                 </div>
 
+                <script>
+                    const dropdownButton = document.getElementById('dropdown-button');
+                    const dropdownMenu = document.getElementById('dropdown-menu');
+                    let isDropdownOpen = false;
+
+                    function toggleDropdown() {
+                        isDropdownOpen = !isDropdownOpen;
+                        if (isDropdownOpen) {
+                            dropdownMenu.classList.remove('hidden');
+                        } else {
+                            dropdownMenu.classList.add('hidden');
+                        }
+                    }
+
+                    toggleDropdown();
+
+                    dropdownButton.addEventListener('click', toggleDropdown);
+
+                    window.addEventListener('click', (event) => {
+
+                        if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                            dropdownMenu.classList.add('hidden');
+                            isDropdownOpen = false;
+                        }
+                    });
+                </script>
+
+                {{-- the dropdown menu --}}
                 <button type="submit"
                     class="ml-4 rounded-md bg-indigo-600 px-3.5  text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Search</button>
 
@@ -63,10 +115,11 @@
             <div class="my-6 bg-white rounded shadow-md">
                 <table class="w-full table-auto min-w-max">
                     <thead>
-                        <tr class="text-sm leading-normal text-center text-gray-600 uppercase bg-gray-200">
+                        <tr class="text-sm leading-normal text-left text-gray-600 uppercase bg-gray-200">
                             <th class="px-6 py-3 ">Product</th>
                             <th class="px-6 py-3 ">Status</th>
                             <th class="px-6 py-3 ">Price</th>
+                            <th class="px-6 py-3 ">Category</th>
                             <th class="px-6 py-3 "></th>
                         </tr>
                     </thead>
@@ -74,7 +127,7 @@
                         @forelse ($data as $item)
                         <tr class="border-b border-gray-200 bg-gray-50 hover:bg-gray-100">
                             {{-- productname --}}
-                            <td class="px-6 py-3 text-center">
+                            <td class="px-6 py-3">
                                 <div class="flex items-center">
                                     <div class="mr-2">
                                         <img class="w-6 h-6 rounded-full"
@@ -86,18 +139,29 @@
                             {{-- productname end --}}
 
                             {{-- status --}}
-                            <td class="px-6 py-3 text-center">
+                            <td class="px-6 py-3">
                                 <span
                                     class="px-3 py-1 text-xs text-green-600 bg-green-200 rounded-full">Completed</span>
                             </td>
                             {{-- status --}}
 
-                            <td class="px-6 py-3 text-center">
+                            {{-- price --}}
+                            <td class="px-6 py-3 ">
                                 <span class="px-3 py-1"> &euro; {{$item->price}}</span>
                             </td>
+                            {{-- price --}}
+
+                            {{-- Category --}}
+                            <td class="px-6 py-3 ">
+                                @foreach ($item->categories as $category)
+                                <span class="px-3 py-1 text-xs text-blue-800 bg-blue-200 rounded-lg"> {{
+                                    $category->name }}</span>
+                                @endforeach
+                            </td>
+                            {{-- Category --}}
 
                             {{-- product actions --}}
-                            <td class="px-6 py-3 text-center">
+                            <td class="px-6 py-3 ">
                                 <div class="flex justify-center item-center">
                                     <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -138,5 +202,4 @@
     </div>
 </div>
 
-{{-- code om clientside de producten te filteren --}}
 @endsection

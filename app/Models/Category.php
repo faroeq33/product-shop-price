@@ -30,6 +30,16 @@ class Category extends Model {
 
     protected $fillable = ['name'];
 
+    /**
+     * Searchable attributes
+     *
+     * @return string[]
+     */
+    public static function searchable() {
+        return ['name'];
+    }
+
+    /** @return BelongsToMany  */
     public function products(): BelongsToMany {
         return $this->belongsToMany(Product::class);
     }
