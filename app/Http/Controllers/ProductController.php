@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 
 class ProductController extends Controller {
@@ -78,15 +77,7 @@ class ProductController extends Controller {
      * Update the specified resource in storage.
      */
     public function update(Request $request, Product $product) {
-        // validatie toevoegen
-        $product->where('id', $product->id)->first();
-        $product->status = $request->post('status') ?? '0';
-        $product->save();
-
-
-        // add a redirect to products
-
-        return redirect()->route('products.index')->with(['success_message' => $product->name]); //
+        //
     }
     /**
      * Remove the specified resource from storage.

@@ -1,4 +1,12 @@
 @extends('app')
+
+@section('head')
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+    integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+    crossorigin="anonymous"></script>
+@endsection
+
 @section('content')
 
 <!-- component -->
@@ -22,7 +30,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20"
                             fill="currentColor" aria-hidden="true">
                             <path fill-rule="evenodd"
-                                d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                                d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-attribuut3-3a1 1 0 010-1.414z"
                                 clip-rule="evenodd" />
                         </svg>
                     </div>
@@ -48,32 +56,7 @@
                     </div>
                 </div>
 
-                <script>
-                    const dropdownButton = document.getElementById('dropdown-button');
-                    const dropdownMenu = document.getElementById('dropdown-menu');
-                    let isDropdownOpen = false;
 
-                    function toggleDropdown() {
-                        isDropdownOpen = !isDropdownOpen;
-                        if (isDropdownOpen) {
-                            dropdownMenu.classList.remove('hidden');
-                        } else {
-                            dropdownMenu.classList.add('hidden');
-                        }
-                    }
-
-                    toggleDropdown();
-
-                    dropdownButton.addEventListener('click', toggleDropdown);
-
-                    window.addEventListener('click', (event) => {
-
-                        if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
-                            dropdownMenu.classList.add('hidden');
-                            isDropdownOpen = false;
-                        }
-                    });
-                </script>
 
                 {{-- the dropdown menu --}}
                 <button type="submit"
@@ -115,7 +98,7 @@
         <div class="w-full lg:w-5/6">
             <div class="my-6 bg-white rounded shadow-md">
                 <table class="w-full table-auto min-w-max">
-                    @if (session('success_message'))
+                    @if (session('success'))
                     <tr class="shadow-inner">
                         <td class="p-4 bg-green-200" colspan="100%">
                             Product
@@ -125,7 +108,8 @@
                             is gewijzigd
                         </td>
                     </tr>
-                    @endif <thead>
+                    @endif
+                    <thead>
                         <tr class="text-sm leading-normal text-left text-gray-600 uppercase bg-gray-200">
                             <th class="px-6 py-3 ">Product</th>
                             <th class="px-6 py-3 ">Status</th>
@@ -149,16 +133,15 @@
                             </td>
                             {{-- productname end --}}
 
-                            {{-- status --}}
+                            {{-- status ajax --}}
                             <td class="px-6 py-3">
-                                <form method="POST" action="{{ route('products.update', $item) }}">
-                                    @method('put')
-                                    @csrf
+                                <div class="toggle" data-product="{{ $item }}">
                                     <label class="relative inline-flex items-center cursor-pointer">
                                         <input type="checkbox" name="status" value="1" class="sr-only peer" {{
-                                            $item->status ==
+                                            $item->status
+                                        ==
                                         '1'
-                                        ? 'checked' : 0 }}>
+                                        ? 'checked' : '' }}>
                                         <div
                                             class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
                                         </div>
@@ -166,17 +149,11 @@
                                             me</span>
 
                                     </label>
-                                    <input type="submit" value="opslaan"
-                                        class="px-2 py-2 ml-4 text-white bg-blue-600 rounded-sm ">
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                                </form>
-
-
-                                {{-- <span
-                                    class="px-3 py-1 text-xs text-green-600 bg-green-200 rounded-full">Completed</span>
-                                --}}
+                                </div>
                             </td>
-                            {{-- status --}}
+
+                            {{-- status ajax --}}
 
                             {{-- price --}}
                             <td class="px-6 py-3 ">
@@ -234,5 +211,69 @@
         </div>
     </div>
 </div>
+
+@endsection
+
+@section('scripts')
+
+{{-- script voor toggledropdown voor zoekfunctie --}}
+<script>
+    const dropdownButton = document.getElementById("dropdown-button");
+const dropdownMenu = document.getElementById("dropdown-menu");
+let isDropdownOpen = false;
+
+function toggleDropdown() {
+    isDropdownOpen = !isDropdownOpen;
+    if (isDropdownOpen) {
+        dropdownMenu.classList.remove("hidden");
+    } else {
+        dropdownMenu.classList.add("hidden");
+    }
+}
+
+toggleDropdown();
+
+dropdownButton.addEventListener("click", toggleDropdown);
+
+window.addEventListener("click", (event) => {
+    if (
+        !dropdownButton.contains(event.target) &&
+        !dropdownMenu.contains(event.target)
+    ) {
+        dropdownMenu.classList.add("hidden");
+        isDropdownOpen = false;
+    }
+});
+</script>
+{{-- script voor toggledropdown voor zoekfunctie --}}
+
+{{-- script voor togglen van de status --}}
+<script>
+    $(function() {
+           $('.toggle').change(function() {
+              // Haal data attribuut op uit de formulier
+              const product = $(this).data('product');
+
+               // Hack om ervoor te zorgen dat hij de veranderde status meegeeft
+               product.status = product.status == true ? 0: 1 ;
+
+           $.ajax({
+               type: "POST",
+               headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+               },
+               dataType: "json",
+               url: '/updatestatus',
+               data: {'product': product},
+            //    success: function(data){ console.log(data.success) },
+               error: function(data){ console.log(data.error) }
+         });
+
+
+      })
+   });
+
+</script>
+{{-- script voor togglen van de status --}}
 
 @endsection
