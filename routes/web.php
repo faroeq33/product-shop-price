@@ -20,3 +20,7 @@ Route::resource('products', ProductController::class);
 Route::get('/search', [ProductController::class, 'show']);
 // Voor de statustoggle dmv AJAX
 Route::post('/updatestatus', [ProductUpdateController::class, 'update']);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
