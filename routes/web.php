@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductUpdateController;
 use Illuminate\Support\Facades\Route;
@@ -23,4 +24,7 @@ Route::post('/updatestatus', [ProductUpdateController::class, 'update']);
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+Route::get('/profile', function () {
+})->middleware('auth');
