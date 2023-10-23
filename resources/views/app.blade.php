@@ -9,7 +9,7 @@
     @vite('resources/css/app.css')
 </head>
 
-<body>
+<body class="h-screen">
     @yield('content')
 </body>
 
