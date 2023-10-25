@@ -13,10 +13,13 @@ class CategorySeeder extends Seeder {
      * Run the database seeds.
      */
     public function run(): void {
-        // Category::factory()->count(50)->create();
-        Category::factory()->has(Product::factory())
-            ->count(3)
-            ->create();
-        //
+        $categories = ['Zoet', 'Gebak', 'Fruit'];
+
+        foreach ($categories as $categoryName) {
+            Category::factory()
+                ->has(Product::factory())
+                ->count(1) // You can specify the number of products you want for each category here
+                ->create(['name' => $categoryName]);
+        }
     }
 }

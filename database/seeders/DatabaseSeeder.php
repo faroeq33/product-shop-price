@@ -12,14 +12,10 @@ class DatabaseSeeder extends Seeder {
         // Call methode maakt mogelijk dat je meerdere seeders of factories kan toevoegen
         $this->call([
             ProductSeeder::class,
-            CategorySeeder::class
+            CategorySeeder::class,
+            UserSeeder::class
         ]);
 
         // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
     }
 }
