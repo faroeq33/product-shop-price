@@ -16,3 +16,20 @@ php artisan serve
 ```sh
 npm run dev
 ```
+
+## Testusers
+In order to test the roles I have some testusers
+
+### Login for admin
+```
+name: testadmin
+email: testadmin@test.com
+password: testpassword123
+```
+
+### Login for medewerker
+```
+name: testuser
+email: test@test.com
+password: testpassword123
+```
