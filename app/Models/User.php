@@ -75,7 +75,15 @@ class User extends Authenticatable {
         return $this->belongsToMany(Role::class, 'user_role');
     }
 
+    public function isMember() {
+        return $this->roles()->where('name', 'medewerker')->exists();
+    }
+
     public function isAdmin() {
         return $this->roles()->where('name', 'admin')->exists();
+    }
+
+    public function hasRole(string $role) {
+        return $this->roles()->where('name', $role)->exists();
     }
 }

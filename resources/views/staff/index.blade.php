@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
-
         <table class="table table-striped table-bordered w-50">
             <thead>
                 <tr>
@@ -21,11 +20,14 @@
                                 </span>
                             @endforeach
                         </td>
-                        <td><a href="/delete-user" style="color:darkred">Verwijder</a></td>
-
+                        <td>
+                            <form method="get" action="{{ route('staff.delete', $user) }}">
+                                @csrf
+                                <input type="submit" value="Verwijder" style="color:darkred">
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
-
             </tbody>
         </table>
         <ul>

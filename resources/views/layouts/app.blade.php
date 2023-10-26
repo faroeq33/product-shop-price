@@ -53,7 +53,7 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item dropdown">
+                            <li class="nav-item dropdown text-capitalize">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
@@ -85,6 +85,8 @@
         </nav>
 
         <main class="py-4">
+            @include('flash-message')
+
             @yield('content')
         </main>
     </div>

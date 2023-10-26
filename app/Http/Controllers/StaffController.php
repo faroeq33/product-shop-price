@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -56,10 +55,23 @@ class StaffController extends Controller {
         //
     }
 
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function delete($user) {
+        return view('staff.delete', [
+            'user' => User::findOrFail($user),
+        ]);
+    }
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id) {
-        //
+        $user = User::find($id);
+        $user->delete();
+
+        return redirect('/staff')->with('success', 'Successfully deleted the user!');
     }
 }
