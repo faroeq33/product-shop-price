@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts.app')
 @section('content')
     <div class="flex items-center justify-center h-full">
         <ul class="shadow-lg">
@@ -7,12 +7,10 @@
 
             <div class="p-4 description-wrapper">
                 <a href="{{ route('profile.edit', $user) }}" class="underline">Wijzig profiel</a>
-                <li>
-                    name: {{ $user->name }}
-                </li>
-                <li>
-                    email: {{ $user->email }}
-                </li>
+                <ul style="list-style-type: none; padding: 0;">
+                    <li> name: {{ $user->name }} </li>
+                    <li> email: {{ $user->email }} </li>
+                </ul>
             </div>
 
         </ul>

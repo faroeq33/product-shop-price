@@ -42,5 +42,8 @@ class UserSeeder extends Seeder {
         User::factory($medewerkerUser)
             ->hasAttached($createdMedewerkerRol)
             ->create();
+
+        // Create some random users as well
+        User::factory()->count(10)->create();
     }
 }
