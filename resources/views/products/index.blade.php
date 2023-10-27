@@ -11,7 +11,7 @@
 
     {{--  --}}
     <!-- component -->
-    <div class="grid gap-4 overflow-x-auto">
+    <div class="grid gap-4 overflow-x-auto" x-data="{ searchOpen: false }">
         <div class="flex justify-center flex-1 px-2 lg:ml-6">
 
             <form method="get" action="/search" class="">
@@ -25,7 +25,7 @@
 
                     {{-- the dropdown menu --}}
                     <div class="relative inline-block text-left">
-                        <div id="dropdown-button"
+                        <div @click="searchOpen = !searchOpen"
                             class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-blue-500">
                             Selecteer Categorie
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 20 20"
@@ -36,7 +36,8 @@
                             </svg>
                         </div>
 
-                        <div id="dropdown-menu"
+                        {{-- Na het klikken worden de filter opeties laten zien dmv searchopen --}}
+                        <div x-show="searchOpen"
                             class="absolute right-0 w-56 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5">
                             <div class="p-2 py-2" role="menu" aria-orientation="vertical"
                                 aria-labelledby="dropdown-button">
@@ -70,19 +71,19 @@
                 <span class="absolute -inset-0.5"></span>
                 <span class="sr-only">Open main menu</span>
                 <!--
-                                                                Icon when menu is closed.
+                                                                                                    Icon when menu is closed.
 
-                                                                Menu open: "hidden", Menu closed: "block"
-                                                              -->
+                                                                                                    Menu open: "hidden", Menu closed: "block"
+                                                                                                  -->
                 <svg class="block w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                     aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                 </svg>
                 <!--
-                                                                Icon when menu is open.
+                                                                                                    Icon when menu is open.
 
-                                                                Menu open: "block", Menu closed: "hidden"
-                                                              -->
+                                                                                                    Menu open: "block", Menu closed: "hidden"
+                                                                                                  -->
                 <svg class="hidden w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                     aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -130,16 +131,13 @@
 
                                     {{-- status ajax --}}
                                     <td class="px-6 py-3">
-                                        <div class="toggle" data-product="{{ $item }}">
+                                        <div class="switch" data-product="{{ $item }}">
                                             <label class="relative inline-flex items-center cursor-pointer">
                                                 <input type="checkbox" name="status" value="1" class="sr-only peer"
                                                     {{ $item->status == '1' ? 'checked' : '' }}>
                                                 <div
                                                     class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
                                                 </div>
-                                                <span
-                                                    class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Toggle
-                                                    me</span>
 
                                             </label>
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}" />
@@ -208,41 +206,10 @@
 @endsection
 
 @section('scripts')
-    {{-- script voor toggledropdown voor zoekfunctie --}}
-    <script>
-        const dropdownButton = document.getElementById("dropdown-button");
-        const dropdownMenu = document.getElementById("dropdown-menu");
-        let isDropdownOpen = false;
-
-        function toggleDropdown() {
-            isDropdownOpen = !isDropdownOpen;
-            if (isDropdownOpen) {
-                dropdownMenu.classList.remove("hidden");
-            } else {
-                dropdownMenu.classList.add("hidden");
-            }
-        }
-
-        toggleDropdown();
-
-        dropdownButton.addEventListener("click", toggleDropdown);
-
-        window.addEventListener("click", (event) => {
-            if (
-                !dropdownButton.contains(event.target) &&
-                !dropdownMenu.contains(event.target)
-            ) {
-                dropdownMenu.classList.add("hidden");
-                isDropdownOpen = false;
-            }
-        });
-    </script>
-    {{-- script voor toggledropdown voor zoekfunctie --}}
-
-    {{-- script voor togglen van de status --}}
+    {{-- script voor schakelen (switch) van de status --}}
     <script>
         $(function() {
-            $('.toggle').change(function() {
+            $('.switch').change(function() {
                 // Haal data attribuut op uit de formulier
                 const product = $(this).data('product');
 
@@ -269,5 +236,5 @@
             })
         });
     </script>
-    {{-- script voor togglen van de status --}}
+    {{-- script voor schakelen van de status --}}
 @endsection
