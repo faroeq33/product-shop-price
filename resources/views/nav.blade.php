@@ -46,6 +46,12 @@
             </div>
             <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 @isAdmin
+                    <a href="{{ route('products.create') }}"
+                        class="inline-flex items-center gap-x-1.5 rounded-md bg-green-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 transition">
+                        Voeg product toe
+
+
+                    </a>
                     <li class="capitalize list-none ">
                         <p class="px-4 py-2 text-sm text-gray-700 ">Hallo,<span class="italic"> {{ Auth::user()->name }}!
                             </span></p>
