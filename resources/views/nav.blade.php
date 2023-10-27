@@ -45,10 +45,12 @@
                 </div>
             </div>
             <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <li class="capitalize list-none ">
-                    <p class="px-4 py-2 text-sm text-gray-700 ">Hallo,<span class="italic"> {{ Auth::user()->name }}!
-                        </span></p>
-                </li>
+                @isAdmin
+                    <li class="capitalize list-none ">
+                        <p class="px-4 py-2 text-sm text-gray-700 ">Hallo,<span class="italic"> {{ Auth::user()->name }}!
+                            </span></p>
+                    </li>
+                @endIsAdmin
 
 
                 <!-- Profile dropdown -->
