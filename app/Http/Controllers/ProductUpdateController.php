@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Deze controller is gemaakt voor het veranderen van de status zonder refresh (AJAX)
@@ -12,6 +15,8 @@ use Illuminate\Http\Request;
 class ProductUpdateController extends Controller {
 
     public function update(Request $request) {
+        Gate::allowIf(fn (User $user) => Auth::check());
+
         $incomingProductId = $request->post('product')['id'];
         $incomingProductStatus = $request->post('product')['status'];
 
