@@ -25,7 +25,7 @@ class ProductController extends Controller {
      * Show the form for creating a new resource.
      */
     public function create() {
-        //
+        return view('products.create');
     }
 
 
@@ -34,7 +34,26 @@ class ProductController extends Controller {
      * Store a newly created resource in storage.
      */
     public function store(Request $request) {
-        //
+
+        // nog bewerken naar create
+        $product = new Product();
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'description' => 'nullable',
+            'price' => 'required|numeric',
+            'status' => 'nullable',
+        ]);
+
+        $status = $request->get('status') ?? 0;
+
+        $product->name = $validatedData['name'];
+        $product->description = $validatedData['description'];
+        $product->price = $validatedData['price'];
+        $product->status = $status;
+
+        $product->save();
+
+        return redirect('/products');
     }
 
     /**

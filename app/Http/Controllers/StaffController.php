@@ -60,6 +60,8 @@ class StaffController extends Controller {
      * Remove the specified resource from storage.
      */
     public function delete($user) {
+        Gate::allowIf(fn (User $user) => $user->isAdmin());
+
         return view('staff.delete', [
             'user' => User::findOrFail($user),
         ]);
@@ -69,6 +71,8 @@ class StaffController extends Controller {
      * Remove the specified resource from storage.
      */
     public function destroy(string $id) {
+        Gate::allowIf(fn (User $user) => $user->isAdmin());
+
         $user = User::find($id);
         $user->delete();
 

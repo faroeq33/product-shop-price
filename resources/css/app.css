@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.alert {
+    @apply relative px-4 py-3 mb-4 border rounded-none;
+}
+.alert-warning {
+    @apply block text-orange-800 bg-orange-200 border-orange-300;
+}
+.alert-info {
+    @apply block text-blue-800 bg-blue-200 border-blue-300;
+}
+.alert-success {
+    @apply text-green-800 bg-green-200 border-0 border-green-300;
+}
+.alert-danger {
+    @apply text-red-800 bg-red-200 border-0 border-red-300;
+}
