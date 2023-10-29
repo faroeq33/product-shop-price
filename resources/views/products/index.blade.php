@@ -71,19 +71,19 @@
                 <span class="absolute -inset-0.5"></span>
                 <span class="sr-only">Open main menu</span>
                 <!--
-                                                                                                        Icon when menu is closed.
+                                                                                                                                                                                                        Icon when menu is closed.
 
-                                                                                                        Menu open: "hidden", Menu closed: "block"
-                                                                                                      -->
+                                                                                                                                                                                                        Menu open: "hidden", Menu closed: "block"
+                                                                                                                                                                                                      -->
                 <svg class="block w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                     aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                 </svg>
                 <!--
-                                                                                                        Icon when menu is open.
+                                                                                                                                                                                                        Icon when menu is open.
 
-                                                                                                        Menu open: "block", Menu closed: "hidden"
-                                                                                                      -->
+                                                                                                                                                                                                        Menu open: "block", Menu closed: "hidden"
+                                                                                                                                                                                                      -->
                 <svg class="hidden w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                     aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -97,12 +97,9 @@
                         @if (session('success'))
                             <tr class="shadow-inner">
                                 <td class="p-4 bg-green-200" colspan="100%">
-                                    Product
-                                    <span class="font-bold capitalize">
-                                        {{ session('success_message') }}
-                                    </span>
-                                    is gewijzigd
-                                </td>
+                                    <span class="capitalize ">
+                                        {{ session('success') }}
+                                    </span </td>
                             </tr>
                         @endif
                         <thead>
@@ -111,7 +108,7 @@
 
                                 {{-- Check if user is logged in then they can see the status --}}
                                 @if (Auth::check())
-                                <th class="px-6 py-3 ">Status</th>
+                                    <th class="px-6 py-3 ">Status</th>
                                 @endif
                                 <th class="px-6 py-3 ">Prijs</th>
                                 <th class="px-6 py-3 ">Categorie</th>
@@ -134,24 +131,24 @@
                                     {{-- productname end --}}
 
 
-                                {{-- Check if user is logged in then they can see the status --}}
-                                @if (Auth::check())
-                                    {{-- status ajax --}}
-                                    <td class="px-6 py-3">
-                                        <div class="switch" data-product="{{ $item }}">
-                                            <label class="relative inline-flex items-center cursor-pointer">
-                                                <input type="checkbox" name="status" value="1" class="sr-only peer"
-                                                    {{ $item->status == '1' ? 'checked' : '' }}>
-                                                <div
-                                                    class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
-                                                </div>
+                                    {{-- Check if user is logged in then they can see the status --}}
+                                    @if (Auth::check())
+                                        {{-- status ajax --}}
+                                        <td class="px-6 py-3">
+                                            <div class="switch" data-product="{{ $item }}">
+                                                <label class="relative inline-flex items-center cursor-pointer">
+                                                    <input type="checkbox" name="status" value="1"
+                                                        class="sr-only peer" {{ $item->status == '1' ? 'checked' : '' }}>
+                                                    <div
+                                                        class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                                                    </div>
 
-                                            </label>
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-                                        </div>
-                                    </td>
-                                    {{-- status ajax --}}
-                                @endif
+                                                </label>
+                                                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                                            </div>
+                                        </td>
+                                        {{-- status ajax --}}
+                                    @endif
 
 
                                     {{-- price --}}
@@ -169,35 +166,41 @@
                                     </td>
                                     {{-- Category --}}
 
-                                    {{-- product actions --}}
-                                    <td class="px-6 py-3 ">
-                                        <div class="flex justify-center item-center">
-                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                                </svg>
+
+                                    @if (Auth::check())
+                                        {{-- product actions --}}
+
+                                        <td class="px-6 py-3">
+                                            <div class="grid grid-cols-2">
+
+                                                <div
+                                                    class="flex flex-col w-4 mr-2 text-gray-300 transform hover:scale-110">
+                                                    <div>
+                                                        <p>Edit</p>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                            viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    class="flex flex-col w-4 mr-2 transform hover:text-red-500 hover:scale-110">
+                                                    <a href="{{ route('product.delete', $item) }}">
+                                                        <p>Delete</p>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                            viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                        </svg>
+                                                    </a>
+                                                </div>
                                             </div>
-                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                                </svg>
-                                            </div>
-                                            <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                </svg>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    {{-- product actions --}}
+                                        </td>
+                                        {{-- product actions --}}
+                                    @endif
                                 </tr>
                             @empty
                                 <tr class="m-4 text-center border-b border-gray-200 bg-gray-50 hover:bg-gray-100">

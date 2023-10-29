@@ -6,7 +6,7 @@
         <p class="test-warning">
             Weet je zeker dat je <b>{{ $product->name }} </b> wilt verwijderen?
         </p>
-        <form method="post" action="{{ route('staff.destroy', $user->id) }}">
+        <form method="post" action="{{ route('product.destroy', $product->id) }}">
             @method('DELETE')
             @csrf
 
