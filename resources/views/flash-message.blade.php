@@ -1,13 +1,3 @@
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <ul class="list-none">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
 @if ($message = Session::get('success'))
     <div class=" alert alert-success" role="alert">
         <b>{{ $message }}</b>
@@ -35,10 +25,10 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 @endif
-
+{{--
 @if ($errors->any())
     <div class="alert alert-danger" role="alert">
         <strong>Please check the form below for errors</strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-@endif
+@endif --}}
